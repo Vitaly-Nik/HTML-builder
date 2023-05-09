@@ -14,10 +14,12 @@ function copyDir() {
       });
     }
 
+    let filesElements = [];
     fs.readdir(folderPath, (err, files) => {
       if (err) {
         throw err;
       }
+      filesElements = files;
       for (let file of files) {
         let filePath = path.join(folderPath, file);
         let filePathCopy = path.join(folderPathCopy, file);
@@ -27,6 +29,23 @@ function copyDir() {
             throw err;
           }
         });
+      }
+    });
+
+    // Проверка на лишние файлы в files-copy
+    fs.readdir(folderPathCopy, (err, files) => {
+      if (err) {
+        throw err;
+      }
+      for (let file of files) {
+        console.log(filesElements.includes(file));
+        if (filesElements.includes(file) === false) {
+          fs.unlink(path.join(folderPathCopy, file), function (err) {
+            if (err) {
+              throw err;
+            }
+          });
+        }
       }
     });
   });
