@@ -38,7 +38,6 @@ function copyDir() {
         throw err;
       }
       for (let file of files) {
-        console.log(filesElements.includes(file));
         if (filesElements.includes(file) === false) {
           fs.unlink(path.join(folderPathCopy, file), function (err) {
             if (err) {
